@@ -99,6 +99,16 @@ func (p *USCategoryParser) ParsePagination(doc *html.Node) (string, error) {
 	return nodes[0].Data, nil
 }
 
+func (p *USCategoryParser) ParseCategoryName(doc *html.Node) (string, error) {
+	expr := `//form//span[@id='nav-search-label-id']//text()`
+
+	nodes, err := utils.FindNodes(doc, expr, false)
+	if err != nil {
+		return "unknown", nil
+	}
+	return nodes[0].Data, nil
+}
+
 func (p *USCategoryParser) ParseASIN(node *html.Node) (string, error) {
 	expr := `@data-asin`
 	nodes, err := utils.FindNodes(node, expr, true)

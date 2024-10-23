@@ -61,6 +61,7 @@ type CategoryParser interface {
 	ParseContentId(doc *html.Node) (string, error)
 	ParseContentLink(doc *html.Node) (string, error)
 	ParsePagination(doc *html.Node) (string, error)
+	ParseCategoryName(doc *html.Node) (string, error)
 	ParseASIN(node *html.Node) (string, error)
 	ParsePrice(node *html.Node) (string, error)
 	ParseStar(node *html.Node) (string, error)

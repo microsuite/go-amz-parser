@@ -142,6 +142,7 @@ func (p *DEProductParser) ParseSoldBy(doc *html.Node) (string, error) {
 func (p *DEProductParser) ParsePackageDimensions(doc *html.Node) (string, error) {
 	exprs := []string{
 		`//tbody/tr/th[contains(text(), 'Verpackungsabmessungen')]/following-sibling::td/text()`,
+		`//tbody/tr/th[contains(text(), 'Paket-Abmessungen')]/following-sibling::td/text()`,
 		`//span[contains(text(), 'Verpackungsabmessungen')]/following-sibling::span/text()`,
 	}
 	for _, expr := range exprs {

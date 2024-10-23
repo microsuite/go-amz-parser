@@ -90,7 +90,23 @@ func (p *DECategoryParser) ParseContentLink(doc *html.Node) (string, error) {
 }
 
 func (p *DECategoryParser) ParsePagination(doc *html.Node) (string, error) {
-	return "unknown", nil
+	expr := `//span[contains(text(), 'Ergebnissen oder Vorschlägen für')]/text()`
+
+	nodes, err := utils.FindNodes(doc, expr, false)
+	if err != nil {
+		return "unknown", nil
+	}
+	return nodes[0].Data, nil
+}
+
+func (p *DECategoryParser) ParseCategoryName(doc *html.Node) (string, error) {
+	expr := `//form//span[@id='nav-search-label-id']//text()`
+
+	nodes, err := utils.FindNodes(doc, expr, false)
+	if err != nil {
+		return "unknown", nil
+	}
+	return nodes[0].Data, nil
 }
 
 func (p *DECategoryParser) ParseASIN(node *html.Node) (string, error) {
