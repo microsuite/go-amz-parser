@@ -1,11 +1,14 @@
 package goamzparser
 
 import (
+	"github.com/antchfx/htmlquery"
+	"github.com/microsuite/go-amz-parser/errors"
 	"github.com/microsuite/go-amz-parser/internal/board"
 	"github.com/microsuite/go-amz-parser/internal/category"
 	"github.com/microsuite/go-amz-parser/internal/keyword"
 	"github.com/microsuite/go-amz-parser/internal/product"
 	"github.com/microsuite/go-amz-parser/internal/seller"
+	"github.com/microsuite/go-amz-parser/utils"
 	"golang.org/x/net/html"
 )
 
@@ -176,4 +179,18 @@ func (p *Parser) registerParsers() {
 	p.registerBoardParser(UK, &board.UKBoardParser{})
 	p.registerBoardParser(DE, &board.DEBoardParser{})
 	p.registerBoardParser(FR, &board.FRBoardParser{})
+}
+
+func ParseRegion(doc *html.Node) (string, error) {
+	langExpr := "/html/@lang"
+	langNodes, err := utils.FindNodes(doc, langExpr, false)
+	if err != nil {
+		return "unknown", err
+	}
+
+	lang := htmlquery.SelectAttr(langNodes[0], "lang")
+	if lang == "" {
+		return "unknown", errors.ErrorNotFoundLanguage
+	}
+	return lang, nil
 }
