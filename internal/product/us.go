@@ -80,7 +80,7 @@ func (p *USProductParser) ParseImg(doc *html.Node) (string, error) {
 
 	img := htmlquery.SelectAttr(nodes[0], "src")
 	if img == "" {
-		return "unknown", fmt.Errorf("img url is empty")
+		return "unknown", errors.ErrorNotFoundImgURL
 	}
 	return img, nil
 }
@@ -291,7 +291,7 @@ func (p *USProductParser) ParseSize(doc *html.Node) (string, error) {
 			return strings.TrimSpace(nodes[0].Data), nil
 		}
 	}
-	return "unknown", fmt.Errorf("no size found")
+	return "unknown", errors.ErrorNotFoundSize
 }
 
 func (p *USProductParser) ParseSpecs(doc *html.Node) ([]string, error) {
@@ -384,7 +384,7 @@ func (p *USProductParser) ParseDescription(doc *html.Node) (string, error) {
 	}
 
 	if desc == "" {
-		return "unknown", fmt.Errorf("desc is empty")
+		return "unknown", errors.ErrorNotFoundDesc
 	}
 	return desc, nil
 }
@@ -398,7 +398,7 @@ func (p *USProductParser) ParseDeliveryTime(doc *html.Node) (string, error) {
 
 	fastestDelivery := htmlquery.SelectAttr(nodes[0], "data-csa-c-delivery-time")
 	if fastestDelivery == "" {
-		return "unknown", fmt.Errorf("delivery time is empty")
+		return "unknown", errors.ErrorNotFoundDeliveryTime
 	}
 	return fastestDelivery, nil
 }
@@ -412,7 +412,7 @@ func (p *USProductParser) ParseFastestDelivery(doc *html.Node) (string, error) {
 
 	fastestDelivery := htmlquery.SelectAttr(nodes[0], "data-csa-c-delivery-time")
 	if fastestDelivery == "" {
-		return "unknown", fmt.Errorf("fastest delivery is empty")
+		return "unknown", errors.ErrorNotFoundFastestDelivery
 	}
 	return fastestDelivery, nil
 }
@@ -437,7 +437,7 @@ func (p *USProductParser) ParseBrand(doc *html.Node) (string, error) {
 			return strings.TrimSpace(nodes[0].Data), nil
 		}
 	}
-	return "unknown", fmt.Errorf("no size found")
+	return "unknown", errors.ErrorNotFoundBrand
 }
 
 func (p *USProductParser) ParseCategoryHierarchy(doc *html.Node) ([]string, error) {

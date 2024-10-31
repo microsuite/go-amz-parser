@@ -1,7 +1,6 @@
 package category
 
 import (
-	"fmt"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -86,7 +85,7 @@ func (p *USCategoryParser) ParseContentLink(doc *html.Node) (string, error) {
 		nextRef := htmlquery.SelectAttr(nodes[0], "href")
 		return nextRef, nil
 	}
-	return "unknown", fmt.Errorf("unable to find cotent link")
+	return "unknown", errors.ErrorNotFoundContentLink
 }
 
 func (p *USCategoryParser) ParsePagination(doc *html.Node) (string, error) {
