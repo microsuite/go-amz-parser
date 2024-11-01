@@ -3,11 +3,19 @@ package errors
 import "fmt"
 
 var (
+	ErrorNotFoundASIN              = fmt.Errorf("not found asin")
 	ErrorNotFoundPrice             = fmt.Errorf("not found price")
 	ErrorNotFoundStar              = fmt.Errorf("not found star")
 	ErrorNotFoundRating            = fmt.Errorf("not found rating")
+	ErrorNotFoundRank              = fmt.Errorf("not found rank")
+	ErrorNotFoundTitle             = fmt.Errorf("not found title")
 	ErrorNotFoundLanguage          = fmt.Errorf("not found lang")
 	ErrorNotFoundNextPage          = fmt.Errorf("not found next page")
+	ErrorNotFoundRecsList          = fmt.Errorf("not found recs list")
+	ErrorNotFoundReftag            = fmt.Errorf("not found ref tag")
+	ErrorNotFoundOffset            = fmt.Errorf("not found offset")
+	ErrorNotFoundAcpParam          = fmt.Errorf("not found acp param")
+	ErrorNotFoundAcpPath           = fmt.Errorf("not found acp path")
 	ErrorNotFoundContentId         = fmt.Errorf("not found content id")
 	ErrorNotFoundContentLink       = fmt.Errorf("not found content link")
 	ErrorNotFoundDimensions        = fmt.Errorf("not found dimensions")

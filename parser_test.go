@@ -29,35 +29,35 @@ func TestCategoryParser(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error parsing max page num: %s\n", err.Error())
 	} else {
-		t.Logf("Max page num: %s\n", pageNum)
+		fmt.Printf("Max page num: %s\n", pageNum)
 	}
 
 	nextPage, err := parser.ParseNextPageURL(doc)
 	if err != nil {
 		t.Errorf("Error parsing next page: %s\n", err.Error())
 	} else {
-		t.Logf("Next page url: %s\n", nextPage)
+		fmt.Printf("Next page url: %s\n", nextPage)
 	}
 
 	contentId, err := parser.ParseContentId(doc)
 	if err != nil {
 		t.Errorf("Error parsing content id: %s\n", err.Error())
 	} else {
-		t.Logf("Content id: %s\n", contentId)
+		fmt.Printf("Content id: %s\n", contentId)
 	}
 
 	contentLink, err := parser.ParseContentLink(doc)
 	if err != nil {
 		t.Errorf("Error parsing content link: %s\n", err.Error())
 	} else {
-		t.Logf("Content link: %s\n", contentLink)
+		fmt.Printf("Content link: %s\n", contentLink)
 	}
 
 	pagination, err := parser.ParsePagination(doc)
 	if err != nil {
 		t.Errorf("Error parsing pagination: %s\n", err.Error())
 	} else {
-		t.Logf("Pagination: %s\n", pagination)
+		fmt.Printf("Pagination: %s\n", pagination)
 	}
 
 	nodes, err := parser.ParseAllProducts(doc)
@@ -70,21 +70,21 @@ func TestCategoryParser(t *testing.T) {
 		if err != nil {
 			t.Errorf("Error parsing asin: %s\n", err.Error())
 		} else {
-			t.Logf("ASIN: %s\n", asin)
+			fmt.Printf("ASIN: %s\n", asin)
 		}
 
 		price, err := parser.ParsePrice(node)
 		if err != nil {
 			t.Errorf("Error parsing price: %s\n", err.Error())
 		} else {
-			t.Logf("Price: %v\n", price)
+			fmt.Printf("Price: %v\n", price)
 		}
 
 		star, err := parser.ParseStar(node)
 		if err != nil {
 			t.Errorf("Error parsing star: %s\n", err.Error())
 		} else {
-			t.Logf("Star: %v\n", star)
+			fmt.Printf("Star: %v\n", star)
 		}
 	}
 }
@@ -111,35 +111,35 @@ func TestSellerParser(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error parsing max page num: %s\n", err.Error())
 	} else {
-		t.Logf("Max page num: %s\n", pageNum)
+		fmt.Printf("Max page num: %s\n", pageNum)
 	}
 
 	nextPage, err := parser.ParseNextPageURL(doc)
 	if err != nil {
 		t.Errorf("Error parsing next page: %s\n", err.Error())
 	} else {
-		t.Logf("Next page url: %s\n", nextPage)
+		fmt.Printf("Next page url: %s\n", nextPage)
 	}
 
 	contentId, err := parser.ParseContentId(doc)
 	if err != nil {
 		t.Errorf("Error parsing content id: %s\n", err.Error())
 	} else {
-		t.Logf("Content id: %s\n", contentId)
+		fmt.Printf("Content id: %s\n", contentId)
 	}
 
 	contentLink, err := parser.ParseContentLink(doc)
 	if err != nil {
 		t.Errorf("Error parsing content link: %s\n", err.Error())
 	} else {
-		t.Logf("Content link: %s\n", contentLink)
+		fmt.Printf("Content link: %s\n", contentLink)
 	}
 
 	pagination, err := parser.ParsePagination(doc)
 	if err != nil {
 		t.Errorf("Error parsing pagination: %s\n", err.Error())
 	} else {
-		t.Logf("pagination: %s\n", pagination)
+		fmt.Printf("pagination: %s\n", pagination)
 	}
 
 	nodes, err := parser.ParseAllProducts(doc)
@@ -152,21 +152,21 @@ func TestSellerParser(t *testing.T) {
 		if err != nil {
 			t.Errorf("Error parsing asin: %s\n", err.Error())
 		} else {
-			t.Logf("ASIN: %s\n", asin)
+			fmt.Printf("ASIN: %s\n", asin)
 		}
 
 		price, err := parser.ParsePrice(node)
 		if err != nil {
 			t.Errorf("Error parsing price: %s\n", err.Error())
 		} else {
-			t.Logf("Price: %v\n", price)
+			fmt.Printf("Price: %v\n", price)
 		}
 
 		star, err := parser.ParseStar(node)
 		if err != nil {
 			t.Errorf("Error parsing star: %s\n", err.Error())
 		} else {
-			t.Logf("Star: %v\n", star)
+			fmt.Printf("Star: %v\n", star)
 		}
 	}
 }
@@ -369,5 +369,115 @@ func TestProductParser(t *testing.T) {
 		t.Errorf("Error parsing product categoryHierarchy: %s\n", err.Error())
 	} else {
 		fmt.Printf("categoryHierarchy: %v\n", categoryHierarchy)
+	}
+}
+
+func TestBoardParser(t *testing.T) {
+	p := NewParser()
+
+	doc, err := htmlquery.LoadDoc("./input.html")
+	if err != nil {
+		t.Fatalf("Error loading document: %s\n", err.Error())
+	}
+
+	region, err := ParseRegion(doc)
+	if err != nil {
+		t.Fatalf("Error parsing region: %s\n", err.Error())
+	}
+
+	parser := p.GetBoardParser(region)
+	if parser == nil {
+		t.Fatal("No parser found for region: " + region)
+	}
+
+	nextPage, err := parser.ParseNextPageURL(doc)
+	if err != nil {
+		t.Errorf("Error parsing next page: %s\n", err.Error())
+	} else {
+		fmt.Printf("Next page url: %s\n", nextPage)
+	}
+
+	recsList, err := parser.ParseRecsList(doc)
+	if err != nil {
+		t.Errorf("Error parsing recsList: %s\n", err.Error())
+	} else {
+		fmt.Printf("recsList: %s\n", recsList)
+	}
+
+	reftag, err := parser.ParseReftag(doc)
+	if err != nil {
+		t.Errorf("Error parsing reftag: %s\n", err.Error())
+	} else {
+		fmt.Printf("reftag: %s\n", reftag)
+	}
+
+	offset, err := parser.ParseOffset(doc)
+	if err != nil {
+		t.Errorf("Error parsing offset: %s\n", err.Error())
+	} else {
+		fmt.Printf("offset: %s\n", offset)
+	}
+
+	acpParam, err := parser.ParseAcpParam(doc)
+	if err != nil {
+		t.Errorf("Error parsing acpParam: %s\n", err.Error())
+	} else {
+		fmt.Printf("acpParam: %s\n", acpParam)
+	}
+
+	acpPath, err := parser.ParseAcpPath(doc)
+	if err != nil {
+		t.Errorf("Error parsing acpPath: %s\n", err.Error())
+	} else {
+		fmt.Printf("acpPath: %s\n", acpPath)
+	}
+
+	nodes, err := parser.ParseAllProducts(doc)
+	if err != nil {
+		t.Fatalf("Error parsing products: %s\n", err.Error())
+	}
+
+	for _, node := range nodes {
+		asin, err := parser.ParseASIN(node)
+		if err != nil {
+			t.Errorf("Error parsing asin: %s\n", err.Error())
+		} else {
+			fmt.Printf("asin: %s\n", asin)
+		}
+
+		price, err := parser.ParsePrice(node)
+		if err != nil {
+			t.Errorf("Error parsing price: %s\n", err.Error())
+		} else {
+			fmt.Printf("price: %s\n", price)
+		}
+
+		star, err := parser.ParseStar(node)
+		if err != nil {
+			t.Errorf("Error parsing star: %s\n", err.Error())
+		} else {
+			fmt.Printf("star: %s\n", star)
+		}
+
+		rating, err := parser.ParseRating(node)
+		if err != nil {
+			t.Errorf("Error parsing rating: %s\n", err.Error())
+		} else {
+			fmt.Printf("rating: %s\n", rating)
+		}
+
+		title, err := parser.ParseTitle(node)
+		if err != nil {
+			t.Errorf("Error parsing title: %s\n", err.Error())
+		} else {
+			fmt.Printf("title: %s\n", title)
+		}
+
+		rank, err := parser.ParseRank(node)
+		if err != nil {
+			t.Errorf("Error parsing rank: %s\n", err.Error())
+		} else {
+			fmt.Printf("rank: %s\n", rank)
+		}
 	}
 }

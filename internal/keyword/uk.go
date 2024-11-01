@@ -11,6 +11,7 @@ import (
 
 type UKKeywordParser struct{}
 
+// ParseAllProducts parses all products from the given HTML document.
 func (p *UKKeywordParser) ParseAllProducts(doc *html.Node) ([]*html.Node, error) {
 	expr := "//div[@class and @data-asin and string-length(@data-asin) > 0 and @data-index and @data-uuid]"
 	nodes, err := utils.FindNodes(doc, expr, true)
