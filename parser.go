@@ -73,6 +73,7 @@ type CategoryParser interface {
 
 type SellerParser interface {
 	ParseAllProducts(doc *html.Node) ([]*html.Node, error)
+	ParseCurrentPageIndex(doc *html.Node) (string, error)
 	ParseMaxPageNum(doc *html.Node) (string, error)
 	ParseNextPageURL(doc *html.Node) (string, error)
 	ParseContentId(doc *html.Node) (string, error)
