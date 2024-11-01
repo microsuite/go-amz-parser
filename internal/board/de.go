@@ -87,6 +87,34 @@ func (p *DEBoardParser) ParseAcpPath(doc *html.Node) (string, error) {
 	return "unknown", errors.ErrorNotFoundAcpPath
 }
 
+// ParseBestSellerCategory parses the best seller category from the give html document.
+func (p *DEBoardParser) ParseBestSelleCategory(doc *html.Node) (string, error) {
+	expr := `//div/div/h1[contains(text(), 'Bestseller in')]/text()`
+
+	nodes, err := utils.FindNodes(doc, expr, true)
+	if err != nil {
+		return "unknown", err
+	}
+	if nodes[0].Data == "" {
+		return "unknown", errors.ErrorNotFoundBestSellerCategory
+	}
+	return nodes[0].Data, nil
+}
+
+// ParseNewReleasesCategory parses the new release category from the give html document.
+func (p *DEBoardParser) ParseNewReleasesCategory(doc *html.Node) (string, error) {
+	expr := `//div/div/h1[contains(text(), 'Neuerscheinungen in')]/text()`
+
+	nodes, err := utils.FindNodes(doc, expr, true)
+	if err != nil {
+		return "unknown", err
+	}
+	if nodes[0].Data == "" {
+		return "unknown", errors.ErrorNotFoundNewReleasesCategory
+	}
+	return nodes[0].Data, nil
+}
+
 // ParseASIN parses the ASIN from the given html node.
 func (p *DEBoardParser) ParseASIN(node *html.Node) (string, error) {
 	expr := `//div[@data-asin]`
