@@ -56,7 +56,7 @@ func (p *DEKeywordParser) ParsePrice(node *html.Node) (string, error) {
 		return "unknown", err
 	}
 
-	price := utils.FormatNumberEuro(utils.DropMoneySym(nodes[0].Data))
+	price := strings.TrimSpace(nodes[0].Data)
 	if price == "" {
 		return "unknown", nil
 	}

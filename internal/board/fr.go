@@ -134,11 +134,9 @@ func (p *FRBoardParser) ParsePrice(node *html.Node) (string, error) {
 	}
 
 	for _, expr := range exprs {
-		price_nodes, err := utils.FindNodes(node, expr, false)
-		if err == nil && len(price_nodes) > 0 {
-			price := utils.FindNumberHead(strings.TrimSpace(price_nodes[0].Data))
-			price = utils.FormatNumber(price)
-			return utils.DropMoneySym(price), nil
+		nodes, err := utils.FindNodes(node, expr, false)
+		if err == nil && len(nodes) > 0 {
+			return strings.TrimSpace(nodes[0].Data), nil
 		}
 	}
 	return "unknown", errors.ErrorNotFoundPrice

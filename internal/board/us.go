@@ -136,7 +136,7 @@ func (p *USBoardParser) ParsePrice(node *html.Node) (string, error) {
 	for _, expr := range exprs {
 		nodes, err := utils.FindNodes(node, expr, false)
 		if err == nil && len(nodes) > 0 {
-			return nodes[0].Data, nil
+			return strings.TrimSpace(nodes[0].Data), nil
 		}
 	}
 	return "unknown", errors.ErrorNotFoundPrice

@@ -98,15 +98,15 @@ func (p *USProductParser) ParsePrice(doc *html.Node) (string, error) {
 		if err == nil {
 			splits := strings.Split(strings.TrimSpace(nodes[0].Data), " ")
 			if len(splits) > 0 && splits[0] != "" {
-				price = utils.FormatNumber(utils.DropMoneySym(splits[0]))
+				price = splits[0]
 			}
 			if price == "" && len(splits) > 1 && splits[1] != "" {
-				price = utils.FormatNumber(utils.DropMoneySym(splits[1]))
+				price = splits[1]
 			}
 			return price, nil
 		}
 	}
-	return "0.0", errors.ErrorNotFoundPrice
+	return "unknown", errors.ErrorNotFoundPrice
 }
 
 func (p *USProductParser) ParseDispatchFrom(doc *html.Node) (string, error) {
