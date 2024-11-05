@@ -23,7 +23,7 @@ func (p *FRBoardParser) ParseAllProducts(doc *html.Node) ([]*html.Node, error) {
 
 // ParseNextPageURL parses the next page reference from the html document.
 func (p *FRBoardParser) ParseNextPageURL(doc *html.Node) (string, error) {
-	expr := `//li/a[contains(text(), "Next page") and string-length(@href) > 0]`
+	expr := `//li/a[contains(text(), "Page suivante") and string-length(@href) > 0]`
 	nodes, err := utils.FindNodes(doc, expr, false)
 	if err == nil && len(nodes) > 0 {
 		nextRef := htmlquery.SelectAttr(nodes[0], "href")
