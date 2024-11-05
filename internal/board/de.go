@@ -87,8 +87,8 @@ func (p *DEBoardParser) ParseAcpPath(doc *html.Node) (string, error) {
 	return "unknown", errors.ErrorNotFoundAcpPath
 }
 
-// ParseBestSellerCategory parses the best seller category from the give html document.
-func (p *DEBoardParser) ParseBestSelleCategory(doc *html.Node) (string, error) {
+// ParseBestSellersCategory parses the best seller category from the give html document.
+func (p *DEBoardParser) ParseBestSellersCategory(doc *html.Node) (string, error) {
 	expr := `//div/div/h1[contains(text(), 'Bestseller in')]/text()`
 
 	nodes, err := utils.FindNodes(doc, expr, true)

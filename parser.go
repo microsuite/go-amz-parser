@@ -225,8 +225,8 @@ type BoardParser interface {
 	// ParseAcpPath parses the acp path from the give html document.
 	ParseAcpPath(doc *html.Node) (string, error)
 
-	// ParseBestSellerCategory parses the best seller category from the give html document.
-	ParseBestSelleCategory(doc *html.Node) (string, error)
+	// ParseBestSellersCategory parses the best seller category from the give html document.
+	ParseBestSellersCategory(doc *html.Node) (string, error)
 
 	// ParseNewReleasesCategory parses the new release category from the give html document.
 	ParseNewReleasesCategory(doc *html.Node) (string, error)
