@@ -453,3 +453,32 @@ func (p *USProductParser) ParseCategoryHierarchy(doc *html.Node) ([]string, erro
 	}
 	return categoryHierarchies, err
 }
+
+func (p *USProductParser) ParseCustomerReviews(doc *html.Node) (map[string]string, error) {
+	expr := `//li[@class='a-align-center a-spacing-none']`
+	nodes, err := utils.FindNodes(doc, expr, true)
+	if err != nil {
+		return nil, err
+	}
+
+	customerReviews := make(map[string]string)
+	for _, node := range nodes {
+		leftExpr := `//span[@class='a-list-item']//div[contains(@class, 'a-text-left')]/text()`
+		rightExpr := `//span[@class='a-list-item']//div[contains(@class, 'a-text-right')]/text()`
+
+		leftNodes, err := utils.FindNodes(node, leftExpr, false)
+		if err != nil {
+			continue
+		}
+
+		var percentage string
+		rightNodes, err := utils.FindNodes(node, rightExpr, false)
+		if err != nil {
+			percentage = "unknown"
+		}
+		percentage = strings.TrimSpace(rightNodes[0].Data)
+
+		customerReviews[strings.TrimSpace(leftNodes[0].Data)] = strings.TrimSpace(percentage)
+	}
+	return customerReviews, nil
+}

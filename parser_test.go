@@ -370,6 +370,13 @@ func TestProductParser(t *testing.T) {
 	} else {
 		fmt.Printf("categoryHierarchy: %v\n", categoryHierarchy)
 	}
+
+	customerReviews, err := parser.ParseCustomerReviews(doc)
+	if err != nil {
+		t.Errorf("Error parsing product customerReviews: %s\n", err.Error())
+	} else {
+		fmt.Printf("customerReviews: %v\n", customerReviews)
+	}
 }
 
 func TestBoardParser(t *testing.T) {

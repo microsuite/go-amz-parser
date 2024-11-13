@@ -90,6 +90,9 @@ type ProductParser interface {
 
 	// ParseCategoryHierarchy parses the category hierarchy from the given HTML document.
 	ParseCategoryHierarchy(doc *html.Node) ([]string, error)
+
+	// ParseCustomerReviews parses the customer reviews from the given HTML document.
+	ParseCustomerReviews(doc *html.Node) (map[string]string, error)
 }
 
 type KeywordParser interface {
