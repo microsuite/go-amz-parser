@@ -521,7 +521,7 @@ func TestKeywordParser(t *testing.T) {
 		fmt.Printf("Next page url: %s\n", nextPage)
 	}
 
-	keyword, err := parser.ParseKerword(doc)
+	keyword, err := parser.ParseKeyword(doc)
 	if err != nil {
 		t.Errorf("Error parsing keyword: %s\n", err.Error())
 	} else {

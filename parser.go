@@ -105,8 +105,8 @@ type KeywordParser interface {
 	// ParseNextPageURL parses the next page url from the given HTML document.
 	ParseNextPageURL(doc *html.Node) (string, error)
 
-	// ParseKerword parses the keyword from the given HTML document.
-	ParseKerword(doc *html.Node) (string, error)
+	// ParseKeyword parses the keyword from the given HTML document.
+	ParseKeyword(doc *html.Node) (string, error)
 
 	// ParseASIN parses the ASIN from the given HTML node.
 	ParseASIN(node *html.Node) (string, error)

@@ -40,7 +40,7 @@ func (p *UKKeywordParser) ParseNextPageURL(doc *html.Node) (string, error) {
 	return "unknown", errors.ErrorNotFoundNextPage
 }
 
-func (p *UKKeywordParser) ParseKerword(doc *html.Node) (string, error) {
+func (p *UKKeywordParser) ParseKeyword(doc *html.Node) (string, error) {
 	expr := `//input[@id='twotabsearchtextbox']/@value`
 	nodes, err := utils.FindNodes(doc, expr, true)
 	if err != nil {
