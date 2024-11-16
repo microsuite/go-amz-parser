@@ -40,6 +40,20 @@ func (p *DEKeywordParser) ParseNextPageURL(doc *html.Node) (string, error) {
 	return "unknown", errors.ErrorNotFoundNextPage
 }
 
+func (p *DEKeywordParser) ParseKerword(doc *html.Node) (string, error) {
+	expr := `//input[@id='twotabsearchtextbox']/@value`
+	nodes, err := utils.FindNodes(doc, expr, true)
+	if err != nil {
+		return "unknown", err
+	}
+
+	keyword := htmlquery.SelectAttr(nodes[0], "value")
+	if keyword == "" {
+		return "unknown", errors.ErrorNotFoundImgURL
+	}
+	return keyword, nil
+}
+
 func (p *DEKeywordParser) ParseASIN(node *html.Node) (string, error) {
 	expr := `@data-asin`
 	nodes, err := utils.FindNodes(node, expr, true)

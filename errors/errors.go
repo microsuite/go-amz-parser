@@ -36,4 +36,5 @@ var (
 	ErrorNotFoundBrand               = fmt.Errorf("not found brand")
 	ErrorNotFoundDeliveryTime        = fmt.Errorf("not found delivery time")
 	ErrorNotFoundFastestDelivery     = fmt.Errorf("not found fastest delivery")
+	ErrorNotFoundKeyword             = fmt.Errorf("not found keyword")
 )

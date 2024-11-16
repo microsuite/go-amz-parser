@@ -488,3 +488,113 @@ func TestBoardParser(t *testing.T) {
 		}
 	}
 }
+
+func TestKeywordParser(t *testing.T) {
+	p := NewParser()
+
+	doc, err := htmlquery.LoadDoc("./input.html")
+	if err != nil {
+		t.Fatalf("Error loading document: %s\n", err.Error())
+	}
+
+	region, err := ParseRegion(doc)
+	if err != nil {
+		t.Fatalf("Error parsing region: %s\n", err.Error())
+	}
+
+	parser := p.GetKeywordParser(region)
+	if parser == nil {
+		t.Fatal("No parser found for region: " + region)
+	}
+
+	pageIndex, err := parser.ParseCurrentPageIndex(doc)
+	if err != nil {
+		t.Errorf("Error parsing current page index: %s\n", err.Error())
+	} else {
+		fmt.Printf("current page index: %s\n", pageIndex)
+	}
+
+	nextPage, err := parser.ParseNextPageURL(doc)
+	if err != nil {
+		t.Errorf("Error parsing next page: %s\n", err.Error())
+	} else {
+		fmt.Printf("Next page url: %s\n", nextPage)
+	}
+
+	keyword, err := parser.ParseKerword(doc)
+	if err != nil {
+		t.Errorf("Error parsing keyword: %s\n", err.Error())
+	} else {
+		fmt.Printf("keyword: %s\n", keyword)
+	}
+
+	nodes, err := parser.ParseAllProducts(doc)
+	if err != nil {
+		t.Fatalf("Error parsing products: %s\n", err.Error())
+	}
+
+	for _, node := range nodes {
+		asin, err := parser.ParseASIN(node)
+		if err != nil {
+			t.Errorf("Error parsing asin: %s\n", err.Error())
+		} else {
+			fmt.Printf("ASIN: %s\n", asin)
+		}
+
+		price, err := parser.ParsePrice(node)
+		if err != nil {
+			t.Errorf("Error parsing price: %s\n", err.Error())
+		} else {
+			fmt.Printf("Price: %v\n", price)
+		}
+
+		star, err := parser.ParseStar(node)
+		if err != nil {
+			t.Errorf("Error parsing star: %s\n", err.Error())
+		} else {
+			fmt.Printf("Star: %v\n", star)
+		}
+
+		rating, err := parser.ParseRating(node)
+		if err != nil {
+			t.Errorf("Error parsing rating: %s\n", err.Error())
+		} else {
+			fmt.Printf("rating: %v\n", rating)
+		}
+
+		sponsered, err := parser.ParseSponsered(node)
+		if err != nil {
+			t.Errorf("Error parsing sponsered: %s\n", err.Error())
+		} else {
+			fmt.Printf("sponsered: %v\n", sponsered)
+		}
+
+		prime, err := parser.ParsePrime(node)
+		if err != nil {
+			t.Errorf("Error parsing prime: %s\n", err.Error())
+		} else {
+			fmt.Printf("prime: %v\n", prime)
+		}
+
+		sales, err := parser.ParseSales(node)
+		if err != nil {
+			t.Errorf("Error parsing sales: %s\n", err.Error())
+		} else {
+			fmt.Printf("sales: %v\n", sales)
+		}
+
+		img, err := parser.ParseImg(node)
+		if err != nil {
+			t.Errorf("Error parsing img: %s\n", err.Error())
+		} else {
+			fmt.Printf("img: %v\n", img)
+		}
+
+		title, err := parser.ParseTitle(node)
+		if err != nil {
+			t.Errorf("Error parsing title: %s\n", err.Error())
+		} else {
+			fmt.Printf("title: %v\n", title)
+		}
+	}
+}
