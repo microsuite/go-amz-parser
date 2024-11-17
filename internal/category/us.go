@@ -159,3 +159,13 @@ func (p *USCategoryParser) ParseImg(node *html.Node) (string, error) {
 	}
 	return htmlquery.SelectAttr(nodes[0], "src"), nil
 }
+
+// ParseTitle parses the title from the html document
+func (p *USCategoryParser) ParseTitle(node *html.Node) (string, error) {
+	expr := `//div//span[contains(@class, "text-normal")]/text()`
+	nodes, err := utils.FindNodes(node, expr, true)
+	if err != nil {
+		return "unknown", err
+	}
+	return utils.FormatTitle(nodes[0].Data), nil
+}

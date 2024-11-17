@@ -172,6 +172,9 @@ type CategoryParser interface {
 
 	// ParseImg parses the image from the given HTML node.
 	ParseImg(node *html.Node) (string, error)
+
+	// ParseTitle parses the title from the given HTML node.
+	ParseTitle(node *html.Node) (string, error)
 }
 
 type SellerParser interface {
