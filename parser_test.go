@@ -175,6 +175,13 @@ func TestSellerParser(t *testing.T) {
 		} else {
 			fmt.Printf("Star: %v\n", star)
 		}
+
+		title, err := parser.ParseTitle(node)
+		if err != nil {
+			t.Errorf("Error parsing title: %s\n", err.Error())
+		} else {
+			fmt.Printf("title: %v\n", title)
+		}
 	}
 }
 

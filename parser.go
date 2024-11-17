@@ -210,6 +210,9 @@ type SellerParser interface {
 
 	// ParseImg parses the img from the give html node.
 	ParseImg(node *html.Node) (string, error)
+
+	// ParseTitle parses the title from the given HTML node.
+	ParseTitle(node *html.Node) (string, error)
 }
 
 type BoardParser interface {
