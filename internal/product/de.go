@@ -14,6 +14,10 @@ import (
 
 type DEProductParser struct{}
 
+func NewDEProductParser() *DEProductParser {
+	return &DEProductParser{}
+}
+
 func (p *DEProductParser) ParseASIN(doc *html.Node) (string, error) {
 	var asin string
 

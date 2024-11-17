@@ -319,34 +319,34 @@ func (p *Parser) GetBoardParser(region string) BoardParser {
 
 func (p *Parser) registerParsers() {
 	// Register product parsers.
-	p.registerProductParser(US, &product.USProductParser{})
-	p.registerProductParser(UK, &product.UKProductParser{})
-	p.registerProductParser(DE, &product.DEProductParser{})
-	p.registerProductParser(FR, &product.FRProductParser{})
+	p.registerProductParser(US, product.NewUSProductParser())
+	p.registerProductParser(UK, product.NewUKProductParser())
+	p.registerProductParser(DE, product.NewDEProductParser())
+	p.registerProductParser(FR, product.NewFRProductParser())
 
 	// Register keyword parsers.
-	p.registerKeywordParser(US, &keyword.USKeywordParser{})
-	p.registerKeywordParser(UK, &keyword.UKKeywordParser{})
-	p.registerKeywordParser(DE, &keyword.DEKeywordParser{})
-	p.registerKeywordParser(FR, &keyword.FRKeywordParser{})
+	p.registerKeywordParser(US, keyword.NewUSKeywordParser())
+	p.registerKeywordParser(UK, keyword.NewUKKeywordParser())
+	p.registerKeywordParser(DE, keyword.NewDEKeywordParser())
+	p.registerKeywordParser(FR, keyword.NewFRKeywordParser())
 
 	// Register category parsers.
-	p.registerCategoryParser(US, &category.USCategoryParser{})
-	p.registerCategoryParser(UK, &category.UKCategoryParser{})
-	p.registerCategoryParser(DE, &category.DECategoryParser{})
-	p.registerCategoryParser(FR, &category.FRCategoryParser{})
+	p.registerCategoryParser(US, category.NewUSCategoryParser())
+	p.registerCategoryParser(UK, category.NewUKCategoryParser())
+	p.registerCategoryParser(DE, category.NewDECategoryParser())
+	p.registerCategoryParser(FR, category.NewFRCategoryParser())
 
 	// Register seller parsers.
-	p.registerSellerParser(US, &seller.USSellerParser{})
-	p.registerSellerParser(UK, &seller.UKSellerParser{})
-	p.registerSellerParser(DE, &seller.DESellerParser{})
-	p.registerSellerParser(FR, &seller.FRSellerParser{})
+	p.registerSellerParser(US, seller.NewUSSellerParser())
+	p.registerSellerParser(UK, seller.NewUKSellerParser())
+	p.registerSellerParser(DE, seller.NewDESellerParser())
+	p.registerSellerParser(FR, seller.NewFRSellerParser())
 
 	// Register board parsers.
-	p.registerBoardParser(US, &board.USBoardParser{})
-	p.registerBoardParser(UK, &board.UKBoardParser{})
-	p.registerBoardParser(DE, &board.DEBoardParser{})
-	p.registerBoardParser(FR, &board.FRBoardParser{})
+	p.registerBoardParser(US, board.NewUSBoardParser())
+	p.registerBoardParser(UK, board.NewUKBoardParser())
+	p.registerBoardParser(DE, board.NewDEBoardParser())
+	p.registerBoardParser(FR, board.NewFRBoardParser())
 }
 
 func ParseRegion(doc *html.Node) (string, error) {

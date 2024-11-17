@@ -12,6 +12,10 @@ import (
 
 type UKSellerParser struct{}
 
+func NewUKSellerParser() *UKSellerParser {
+	return &UKSellerParser{}
+}
+
 // ParseAllProducts parses all products from the given HTML document.
 func (p *UKSellerParser) ParseAllProducts(doc *html.Node) ([]*html.Node, error) {
 	expr := "//div[@class and @data-asin and string-length(@data-asin) > 0 and @data-index and @data-uuid]"

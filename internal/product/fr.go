@@ -14,6 +14,10 @@ import (
 
 type FRProductParser struct{}
 
+func NewFRProductParser() *FRProductParser {
+	return &FRProductParser{}
+}
+
 func (p *FRProductParser) ParseASIN(doc *html.Node) (string, error) {
 	var asin string
 

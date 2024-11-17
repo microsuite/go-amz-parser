@@ -11,6 +11,10 @@ import (
 
 type UKBoardParser struct{}
 
+func NewUKBoardParser() *UKBoardParser {
+	return &UKBoardParser{}
+}
+
 // ParseAllProducts parses all products from the given HTML document.
 func (p *UKBoardParser) ParseAllProducts(doc *html.Node) ([]*html.Node, error) {
 	expr := `/html/body/div[@id="a-page"]//div[@data-client-recs-list and @data-reftag]`

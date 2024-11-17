@@ -11,6 +11,10 @@ import (
 
 type USBoardParser struct{}
 
+func NewUSBoardParser() *USBoardParser {
+	return &USBoardParser{}
+}
+
 // ParseAllProducts parses all products from the given HTML document.
 func (p *USBoardParser) ParseAllProducts(doc *html.Node) ([]*html.Node, error) {
 	expr := `//div[@id='gridItemRoot']`

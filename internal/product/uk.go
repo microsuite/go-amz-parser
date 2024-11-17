@@ -14,6 +14,10 @@ import (
 
 type UKProductParser struct{}
 
+func NewUKProductParser() *UKProductParser {
+	return &UKProductParser{}
+}
+
 func (p *UKProductParser) ParseASIN(doc *html.Node) (string, error) {
 	var asin string
 
