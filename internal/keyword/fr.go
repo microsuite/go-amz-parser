@@ -96,7 +96,7 @@ func (p *FRKeywordParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *FRKeywordParser) ParseRating(node *html.Node) (string, error) {
-	expr := `//div//span/div/span[contains(@aria-label, 'évaluations')]/a/span/text()`
+	expr := `//span[contains(@aria-label, 'évaluations')]/a/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
