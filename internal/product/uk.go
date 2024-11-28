@@ -1,6 +1,7 @@
 package product
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
 	"strings"
@@ -303,67 +304,25 @@ func (p *UKProductParser) ParseSize(doc *html.Node) (string, error) {
 }
 
 func (p *UKProductParser) ParseSpecs(doc *html.Node) ([]string, error) {
-	var specs []string
+	specs := make([]string, 0)
+	var m map[string]interface{}
 
-	expr := `//select[@id='native_dropdown_selected_color_name']`
-	_, err := utils.FindNodes(doc, expr, false)
-	if err == nil {
-		colorExpr := `//option[contains(@id, 'native_color_name')]`
-		nodes, err := utils.FindNodes(doc, colorExpr, true)
-		if err == nil || len(nodes) != 0 {
-			for _, node := range nodes {
-				asinStr := htmlquery.SelectAttr(node, "value")
-				if asinStr != "" {
-					strs := strings.Split(asinStr, ",")
-					if len(strs) > 1 {
-						specs = append(specs, strs[1])
-					}
-				}
-			}
-		}
-	} else {
-		colorExpr := `//li[contains(@id, 'color_name')]`
-		nodes, err := utils.FindNodes(doc, colorExpr, true)
-		if err == nil || len(nodes) != 0 {
-			for _, node := range nodes {
-				asin := htmlquery.SelectAttr(node, "data-csa-c-item-id")
-				if asin != "" {
-					specs = append(specs, asin)
-				}
-			}
-		}
+	pattern := `"asinVariationValues(.*)`
+	re, err := regexp.Compile(pattern)
+	if err != nil {
+		return nil, err
+	}
+	match := re.FindString(htmlquery.InnerText(doc))
+
+	str := strings.Trim(strings.Split(match, `"asinVariationValues" : `)[1], ",")
+	if err := json.Unmarshal([]byte(str), &m); err != nil {
+		return nil, err
 	}
 
-	// parse sizes
-	expr = `//select[@id='native_dropdown_selected_size_name']`
-	_, err = utils.FindNodes(doc, expr, false)
-	if err == nil {
-		sizeExpr := `//option[contains(@id, 'native_size_name')]`
-		nodes, err := utils.FindNodes(doc, sizeExpr, true)
-		if err == nil || len(nodes) != 0 {
-			for _, node := range nodes {
-				asinStr := htmlquery.SelectAttr(node, "value")
-				if asinStr != "" {
-					strs := strings.Split(asinStr, ",")
-					if len(strs) > 1 {
-						specs = append(specs, strs[1])
-					}
-				}
-			}
-		}
-	} else {
-		sizeExpr := `//li[contains(@id, 'size_name')]`
-		nodes, err := utils.FindNodes(doc, sizeExpr, true)
-		if err == nil || len(nodes) != 0 {
-			for _, node := range nodes {
-				asin := htmlquery.SelectAttr(node, "data-csa-c-item-id")
-				if asin != "" {
-					specs = append(specs, asin)
-				}
-			}
-		}
+	for key := range m {
+		specs = append(specs, key)
 	}
-	return removeDuplicates(specs), nil
+	return specs, nil
 }
 
 func (p *UKProductParser) ParseDescription(doc *html.Node) (string, error) {
