@@ -310,13 +310,16 @@ func (p *USProductParser) ParseSpecs(doc *html.Node) ([]string, error) {
 	}
 	match := re.FindString(htmlquery.InnerText(doc))
 
-	str := strings.Trim(strings.Split(match, `"asinVariationValues" : `)[1], ",")
-	if err := json.Unmarshal([]byte(str), &m); err != nil {
-		return nil, err
-	}
+	values := strings.Split(match, `"asinVariationValues" : `)
+	if len(values) > 1 {
+		str := strings.Trim(values[1], ",")
+		if err := json.Unmarshal([]byte(str), &m); err != nil {
+			return nil, err
+		}
 
-	for key := range m {
-		specs = append(specs, key)
+		for key := range m {
+			specs = append(specs, key)
+		}
 	}
 	return specs, nil
 }
