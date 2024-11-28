@@ -94,7 +94,13 @@ func (p *DESellerParser) ParseContentLink(doc *html.Node) (string, error) {
 }
 
 func (p *DESellerParser) ParsePagination(doc *html.Node) (string, error) {
-	return "unknown", nil
+	expr := `//span[contains(text(), 'Ergebnissen oder Vorschlägen für')]/text()`
+
+	nodes, err := utils.FindNodes(doc, expr, false)
+	if err != nil {
+		return "unknown", nil
+	}
+	return nodes[0].Data, nil
 }
 
 func (p *DESellerParser) ParseASIN(node *html.Node) (string, error) {
