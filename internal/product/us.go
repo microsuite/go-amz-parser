@@ -288,6 +288,7 @@ func (p *USProductParser) ParseSize(doc *html.Node) (string, error) {
 	exprs := []string{
 		`//label[contains(text(),'Size:')]/following-sibling::span/text()`,
 		`//span[contains(text(),'Size')]/../following-sibling::td/span/text()`,
+		`//label[contains(text(),'Size:')]/../following-sibling::span//span[@class='a-dropdown-prompt']/text()`,
 	}
 
 	for _, expr := range exprs {
