@@ -138,14 +138,27 @@ func (p *DECategoryParser) ParsePrice(node *html.Node) (string, error) {
 
 func (p *DECategoryParser) ParseStar(node *html.Node) (string, error) {
 	expr := `//div//span[contains(@aria-label,'von 5 Sternen')]`
+
+	var star string
 	nodes, err := utils.FindNodes(node, expr, true)
-	if err != nil {
-		return "unknown", err
-	}
-	stars := htmlquery.SelectAttr(nodes[0], "aria-label")
-	star := utils.FormatNumberEuro(strings.Split(stars, " ")[0])
-	if star == "" {
-		return "unknown", nil
+	if err == nil && len(nodes) > 0 {
+		stars := htmlquery.SelectAttr(nodes[0], "aria-label")
+		star = utils.FormatNumberEuro(strings.Split(stars, " ")[0])
+		if star == "" {
+			return "unknown", nil
+		}
+	} else {
+		expr := `//span[contains(text(),'von 5 Sternen')]/text()`
+
+		nodes, err := utils.FindNodes(node, expr, true)
+		if err != nil {
+			return "unknown", err
+		}
+		stars := strings.TrimSpace(nodes[0].Data)
+		star = utils.FormatNumberEuro(strings.Split(stars, " ")[0])
+		if star == "" {
+			return "unknown", nil
+		}
 	}
 	return star, nil
 }
