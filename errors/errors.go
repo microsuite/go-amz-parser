@@ -37,4 +37,6 @@ var (
 	ErrorNotFoundDeliveryTime        = fmt.Errorf("not found delivery time")
 	ErrorNotFoundFastestDelivery     = fmt.Errorf("not found fastest delivery")
 	ErrorNotFoundKeyword             = fmt.Errorf("not found keyword")
+	ErrorNotFoundReviewer            = fmt.Errorf("not found reviewer")
+	ErrorNotFoundReviewerLink        = fmt.Errorf("not found reviewer link")
 )

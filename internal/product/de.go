@@ -51,8 +51,7 @@ func (p *DEProductParser) ParseStar(doc *html.Node) (string, error) {
 	if err != nil {
 		return "unknown", err
 	}
-	star := nodes[0].Data
-	star = strings.TrimSpace(star)
+	star := strings.TrimSpace(nodes[0].Data)
 	return utils.FormatNumberEuro(strings.Split(star, " ")[0]), nil
 }
 

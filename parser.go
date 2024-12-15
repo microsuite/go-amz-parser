@@ -7,6 +7,7 @@ import (
 	"github.com/microsuite/go-amz-parser/internal/category"
 	"github.com/microsuite/go-amz-parser/internal/keyword"
 	"github.com/microsuite/go-amz-parser/internal/product"
+	"github.com/microsuite/go-amz-parser/internal/review"
 	"github.com/microsuite/go-amz-parser/internal/seller"
 	"github.com/microsuite/go-amz-parser/utils"
 	"golang.org/x/net/html"
@@ -262,12 +263,39 @@ type BoardParser interface {
 	ParseRank(node *html.Node) (string, error)
 }
 
+type AmzReviewParser interface {
+	// ParseAllReviews parses all reviews from the given HTML document.
+	ParseAllReviews(doc *html.Node) ([]*html.Node, error)
+
+	// ParseReviewer parses reviewer from the given HTML node.
+	ParseReviewer(node *html.Node) (string, error)
+
+	// ParseReviewerLink parses reviewer link from the given HTML node.
+	ParseReviewerLink(node *html.Node) (string, error)
+
+	// ParseStar parses the star from the give html node.
+	ParseStar(node *html.Node) (string, error)
+
+	// ParseTitle parses the title from the give html node.
+	ParseTitle(node *html.Node) (string, error)
+
+	// ParseDate parses the date from the give html node.
+	ParseDate(node *html.Node) (string, error)
+
+	// ParsePurchase parses whether it has been purchased from the give html node.
+	ParsePurchase(node *html.Node) (string, error)
+
+	// ParseContent parses the content from the give html node.
+	ParseContent(node *html.Node) (string, error)
+}
+
 type Parser struct {
 	productParserMap  map[string]ProductParser
 	keywordParserMap  map[string]KeywordParser
 	categoryParserMap map[string]CategoryParser
 	sellerParserMap   map[string]SellerParser
 	boardSellerMap    map[string]BoardParser
+	reviewParserMap   map[string]AmzReviewParser
 }
 
 func NewParser() *Parser {
@@ -277,6 +305,7 @@ func NewParser() *Parser {
 		categoryParserMap: make(map[string]CategoryParser),
 		sellerParserMap:   make(map[string]SellerParser),
 		boardSellerMap:    make(map[string]BoardParser),
+		reviewParserMap:   make(map[string]AmzReviewParser),
 	}
 	p.registerParsers()
 	return p
@@ -323,6 +352,14 @@ func (p *Parser) GetBoardParser(region string) BoardParser {
 	return p.boardSellerMap[region]
 }
 
+func (p *Parser) registerReviewParser(region string, parser AmzReviewParser) {
+	p.reviewParserMap[region] = parser
+}
+
+func (p *Parser) GetReviewParser(region string) AmzReviewParser {
+	return p.reviewParserMap[region]
+}
+
 func (p *Parser) registerParsers() {
 	// Register product parsers.
 	p.registerProductParser(US, product.NewUSProductParser())
@@ -353,6 +390,12 @@ func (p *Parser) registerParsers() {
 	p.registerBoardParser(UK, board.NewUKBoardParser())
 	p.registerBoardParser(DE, board.NewDEBoardParser())
 	p.registerBoardParser(FR, board.NewFRBoardParser())
+
+	// Register review parsers.
+	p.registerReviewParser(US, review.NewUSReviewParser())
+	p.registerReviewParser(UK, review.NewUKReviewParser())
+	p.registerReviewParser(DE, review.NewDEReviewParser())
+	p.registerReviewParser(FR, review.NewFRReviewParser())
 }
 
 func ParseRegion(doc *html.Node) (string, error) {

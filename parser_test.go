@@ -612,3 +612,78 @@ func TestKeywordParser(t *testing.T) {
 		}
 	}
 }
+
+func TestReviewParser(t *testing.T) {
+	p := NewParser()
+
+	doc, err := htmlquery.LoadDoc("./input.html")
+	if err != nil {
+		t.Fatalf("Error loading document: %s\n", err.Error())
+	}
+
+	region, err := ParseRegion(doc)
+	if err != nil {
+		t.Fatalf("Error parsing region: %s\n", err.Error())
+	}
+
+	parser := p.GetReviewParser(region)
+	if parser == nil {
+		t.Fatal("No parser found for region: " + region)
+	}
+
+	nodes, err := parser.ParseAllReviews(doc)
+	if err != nil {
+		t.Fatalf("Error parsing reviews: %s\n", err.Error())
+	}
+
+	for _, node := range nodes {
+		reviewer, err := parser.ParseReviewer(node)
+		if err != nil {
+			t.Errorf("Error parsing reviewer: %s\n", err.Error())
+		} else {
+			fmt.Printf("reviewer: %v\n", reviewer)
+		}
+
+		reviewerLink, err := parser.ParseReviewerLink(node)
+		if err != nil {
+			t.Errorf("Error parsing reviewerLink: %s\n", err.Error())
+		} else {
+			fmt.Printf("reviewerLink: %v\n", reviewerLink)
+		}
+
+		star, err := parser.ParseStar(node)
+		if err != nil {
+			t.Errorf("Error parsing star: %s\n", err.Error())
+		} else {
+			fmt.Printf("star: %v\n", star)
+		}
+
+		title, err := parser.ParseTitle(node)
+		if err != nil {
+			t.Errorf("Error parsing title: %s\n", err.Error())
+		} else {
+			fmt.Printf("title: %v\n", title)
+		}
+
+		date, err := parser.ParseDate(node)
+		if err != nil {
+			t.Errorf("Error parsing date: %s\n", err.Error())
+		} else {
+			fmt.Printf("date: %v\n", date)
+		}
+
+		purchase, err := parser.ParsePurchase(node)
+		if err != nil {
+			t.Errorf("Error parsing purchase: %s\n", err.Error())
+		} else {
+			fmt.Printf("purchase: %v\n", purchase)
+		}
+
+		content, err := parser.ParseContent(node)
+		if err != nil {
+			t.Errorf("Error parsing content: %s\n", err.Error())
+		} else {
+			fmt.Printf("content: %v\n", content)
+		}
+	}
+}
