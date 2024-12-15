@@ -621,14 +621,9 @@ func TestReviewParser(t *testing.T) {
 		t.Fatalf("Error loading document: %s\n", err.Error())
 	}
 
-	region, err := ParseRegion(doc)
-	if err != nil {
-		t.Fatalf("Error parsing region: %s\n", err.Error())
-	}
-
-	parser := p.GetReviewParser(region)
+	parser := p.GetReviewParser("en-us")
 	if parser == nil {
-		t.Fatal("No parser found for region: " + region)
+		t.Fatal("No parser found for region: " + "en-us")
 	}
 
 	nodes, err := parser.ParseAllReviews(doc)

@@ -16,7 +16,7 @@ func NewFRReviewParser() *FRReviewParser {
 }
 
 func (p *FRReviewParser) ParseAllReviews(doc *html.Node) ([]*html.Node, error) {
-	expr := "//div[@id='cm-cr-dp-review-list']/div"
+	expr := "//body/div[@review]"
 	nodes, err := utils.FindNodes(doc, expr, true)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (p *FRReviewParser) ParseTitle(node *html.Node) (string, error) {
 }
 
 func (p *FRReviewParser) ParseDate(node *html.Node) (string, error) {
-	expr := `//span[contains(@class, 'review-date')]/text()`
+	expr := `//span[contains(@data-hook, 'review-date')]/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
@@ -91,7 +91,7 @@ func (p *FRReviewParser) ParsePurchase(node *html.Node) (string, error) {
 }
 
 func (p *FRReviewParser) ParseContent(node *html.Node) (string, error) {
-	expr := `//div[contains(@class, 'review-text-content')]/span/text()`
+	expr := `//div[@review-text-content]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err

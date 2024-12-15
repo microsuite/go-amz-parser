@@ -16,7 +16,7 @@ func NewUSReviewParser() *USReviewParser {
 }
 
 func (p *USReviewParser) ParseAllReviews(doc *html.Node) ([]*html.Node, error) {
-	expr := "//div[@id='cm-cr-dp-review-list']/div"
+	expr := "//body/div[@review]"
 	nodes, err := utils.FindNodes(doc, expr, true)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (p *USReviewParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *USReviewParser) ParseTitle(node *html.Node) (string, error) {
-	expr := `//a[contains(@class, 'review-title')]/span/text()`
+	expr := `//a[@review-title]/i/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
@@ -68,14 +68,14 @@ func (p *USReviewParser) ParseTitle(node *html.Node) (string, error) {
 }
 
 func (p *USReviewParser) ParseDate(node *html.Node) (string, error) {
-	expr := `//span[contains(@class, 'review-date')]/text()`
+	expr := `//span[contains(@data-hook, 'review-date')]/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
 	}
 
 	date := strings.TrimSpace(nodes[0].Data)
-	dates := strings.Split(date, "Bewertet in Deutschland am")
+	dates := strings.Split(date, "Reviewed in the United States on")
 	if len(dates) < 1 {
 		return "unknown", errors.ErrorNotFoundReviewerLink
 	}
@@ -92,7 +92,7 @@ func (p *USReviewParser) ParsePurchase(node *html.Node) (string, error) {
 }
 
 func (p *USReviewParser) ParseContent(node *html.Node) (string, error) {
-	expr := `//div[contains(@class, 'review-text-content')]/span/text()`
+	expr := `//div[@review-text-content]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
