@@ -16,7 +16,7 @@ func NewUSReviewParser() *USReviewParser {
 }
 
 func (p *USReviewParser) ParseAllReviews(doc *html.Node) ([]*html.Node, error) {
-	expr := "//body/div[@review]"
+	expr := "//body/li[contains(@data-hook, 'review')]"
 	nodes, err := utils.FindNodes(doc, expr, true)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (p *USReviewParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *USReviewParser) ParseTitle(node *html.Node) (string, error) {
-	expr := `//a[@review-title]/i/span/text()`
+	expr := `//a[@review-title]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err

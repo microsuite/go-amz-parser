@@ -82,13 +82,12 @@ func (p *USKeywordParser) ParsePrice(node *html.Node) (string, error) {
 }
 
 func (p *USKeywordParser) ParseStar(node *html.Node) (string, error) {
-	expr := `//div//span[contains(@aria-label,'out of 5 stars')]`
+	expr := `//span[@class="a-icon-alt"]/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err
 	}
-	stars := htmlquery.SelectAttr(nodes[0], "aria-label")
-	star := utils.FormatNumber(strings.Split(stars, " ")[0])
+	star := utils.FormatNumber(strings.Split(nodes[0].Data, " ")[0])
 	if star == "" {
 		return "unknown", nil
 	}
@@ -96,7 +95,7 @@ func (p *USKeywordParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *USKeywordParser) ParseRating(node *html.Node) (string, error) {
-	expr := `//span[contains(@aria-label, 'ratings')]/a/span/text()`
+	expr := `//a[contains(@aria-label, 'ratings')]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "0", err
@@ -147,7 +146,7 @@ func (p *USKeywordParser) ParseImg(node *html.Node) (string, error) {
 
 // ParseTitle parses the title from the html document
 func (p *USKeywordParser) ParseTitle(node *html.Node) (string, error) {
-	expr := `//div//span[contains(@class, "text-normal")]/text()`
+	expr := `//h2[contains(@class, "a-text-normal")]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err

@@ -59,7 +59,7 @@ func (p *UKReviewParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *UKReviewParser) ParseTitle(node *html.Node) (string, error) {
-	expr := `//a[contains(@class, 'review-title')]/span/text()`
+	expr := `//a[@review-title]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err

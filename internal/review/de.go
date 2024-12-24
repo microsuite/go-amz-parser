@@ -16,7 +16,7 @@ func NewDEReviewParser() *DEReviewParser {
 }
 
 func (p *DEReviewParser) ParseAllReviews(doc *html.Node) ([]*html.Node, error) {
-	expr := "//body/div[@review]"
+	expr := "//body/li[contains(@data-hook, 'review')]"
 	nodes, err := utils.FindNodes(doc, expr, true)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (p *DEReviewParser) ParseStar(node *html.Node) (string, error) {
 }
 
 func (p *DEReviewParser) ParseTitle(node *html.Node) (string, error) {
-	expr := `//a[contains(@class, 'review-title')]/span/text()`
+	expr := `//a[@review-title]/span/text()`
 	nodes, err := utils.FindNodes(node, expr, true)
 	if err != nil {
 		return "unknown", err

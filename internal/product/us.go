@@ -35,14 +35,27 @@ func (p *USProductParser) ParseASIN(doc *html.Node) (string, error) {
 		// parse review from top node.
 		reviewExpr := `//div[@id="averageCustomerReviews" and @data-asin]`
 		nodes, err := utils.FindNodes(doc, reviewExpr, true)
+		if err == nil {
+			// parse asin from review.
+			return htmlquery.SelectAttr(nodes[0], "data-asin"), nil
+		}
+	}
+
+	if asin == "" {
+		expr := `//div[@data-csa-c-asin]`
+		nodes, err := utils.FindNodes(doc, expr, true)
 		if err != nil {
-			return asin, err
+			return "unknown", err
 		}
 
-		// parse asin from review.
-		asin = htmlquery.SelectAttr(nodes[0], "data-asin")
+		for _, node := range nodes {
+			asin = htmlquery.SelectAttr(node, "data-csa-c-asin")
+			if asin != "" {
+				return asin, nil
+			}
+		}
 	}
-	return asin, nil
+	return "unknown", nil
 }
 
 func (p *USProductParser) ParseStar(doc *html.Node) (string, error) {
